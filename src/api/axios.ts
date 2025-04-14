@@ -4,7 +4,7 @@ import TokenService from '../services/token.service'
 const api = axios.create({
   baseURL: await import.meta.env.VITE_API_BASE_URL,
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'multipart/form-data',
   },
 })
 
