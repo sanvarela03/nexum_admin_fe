@@ -4,17 +4,11 @@ import * as Yup from 'yup'
 import AuthService from '../../services/auth.service'
 import { Formik, Form, useField } from 'formik'
 import { Button, Input } from '@heroui/react'
-import RolesCheckboxes from './RolesCheckbox'
-import './Signup.css'
+import './Login.css'
 
 export interface Values {
   username: string
   password: string
-  email: string
-  name: string
-  lastName: string
-  phone: string
-  roles: string[]
 }
 
 interface HeroInputProps {
@@ -49,7 +43,7 @@ const HeroInput = ({ label, ...props }: HeroInputProps) => {
   )
 }
 
-const Register = () => {
+const Login = () => {
   const navigate: NavigateFunction = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
@@ -62,51 +56,30 @@ const Register = () => {
       password: Yup.string()
         .required('Contraseña requerida')
         .min(5, 'La contraseña debe tener al menos 5 caracteres'),
-      email: Yup.string().required('Correo requerido').email('Correo inválido'),
-      name: Yup.string().required('Nombre requerido'),
-      lastName: Yup.string().required('Apellido requerido'),
-      phone: Yup.string().required('Teléfono requerido'),
-      roles: Yup.array().of(Yup.string()),
     })
   }
 
-  const roles: Record<string, string> = {
-    'Usuario'      : 'ROLE_USER',
-    'Administrador': 'ROLE_ADMIN',
-    'Moderador'    : 'ROLE_MODERATOR',
-  }
-
-  const handleSignup = (formValue: Values) => {
+  const handleLogin = ({ username, password }: Values) => {
     setMessage('')
     setLoading(true)
-    const formData = new FormData();
 
-    // Iterate and append form values including roles conversion
-    (Object.keys(formValue) as (keyof typeof formValue)[]).forEach((key) => {
-      const value = formValue[key]
-      if (Array.isArray(value)) {
-        let str = ''
-        value.forEach((item, index) => str = index === 0 ? `${roles[item]}` : `${str}, ${roles[item]}`)
-        formData.append(key, str) // Adjust key name if required by your backend
-      } else {
-        formData.append(key, value)
-      }
-    })
-
-    AuthService.register(formData).then(
+    AuthService.login(username, password).then(
       () => {
-        console.log('success')
-        navigate('/login')
+        navigate('/profile')
         window.location.reload()
       },
       (error) => {
         const resMessage =
-          (error.response && error.response.data && error.response.data.message) ||
-          error.message ||
-          error.toString()
+            (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+            error.message ||
+            error.toString()
+
+        // const resMessage = error.message || error.toString()
 
         setLoading(false)
-        console.error('Error en el signup ->', error)
+        console.log('Error en el login ->', error)
         setMessage(resMessage)
       }
     )
@@ -117,18 +90,13 @@ const Register = () => {
       initialValues={{
         username: '',
         password: '',
-        email: '',
-        name: '',
-        lastName: '',
-        phone: '',
-        roles: [],
       }}
       validationSchema={validationSchema}
-      onSubmit={handleSignup}
+      onSubmit={handleLogin}
     >
       <Form className="container-login">
         <h1 className="text-4xl font-bold text-center text-indigo-600 mb-6">
-          Crear cuenta
+          Iniciar sesión
         </h1>
 
         {/* Using our custom HeroInput for each text field */}
@@ -146,39 +114,8 @@ const Register = () => {
           label="Contraseña"
         />
 
-        <HeroInput
-          name="email"
-          type="email"
-          placeholder="Correo"
-          label="Correo"
-        />
-
-        <HeroInput
-          name="name"
-          type="text"
-          placeholder="Nombre"
-          label="Nombre"
-        />
-
-        <HeroInput
-          name="lastName"
-          type="text"
-          placeholder="Apellido"
-          label="Apellido"
-        />
-
-        <HeroInput
-          name="phone"
-          type="text"
-          placeholder="Teléfono"
-          label="Teléfono"
-        />
-
-        {/* Roles are handled via a custom RolesCheckboxes component */}
-        <RolesCheckboxes name="roles" />
-
         <Button type="submit" disabled={loading}>
-          {loading ? 'Registrando...' : 'Crear cuenta'}
+          {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
         </Button>
 
         {message && <div className="error-msg">{message}</div>}
@@ -187,4 +124,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default Login

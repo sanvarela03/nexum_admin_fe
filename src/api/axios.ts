@@ -4,7 +4,6 @@ import TokenService from '../services/token.service'
 const api = axios.create({
   baseURL: await import.meta.env.VITE_API_BASE_URL,
   headers: {
-    'Content-Type': 'multipart/form-data',
   },
 })
 
@@ -54,7 +53,11 @@ api.interceptors.response.use(
   async (error) => {
     const originalConfig = error.config
 
-    if (originalConfig.url !== 'auth/signin' && error.response) {
+    if (
+      (originalConfig?.url || '') !== 'auth/signin'
+      && (originalConfig?.url || '') !== 'auth/signup'
+      && error.response
+      && TokenService.getLocalAccessToken()) {
       if (error.response.status === 401 && !originalConfig._retry) {
         originalConfig._retry = true
         try {

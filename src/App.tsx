@@ -29,30 +29,3 @@ function App() {
 }
 
 export default App
-
-/*fetch('./assets/Captura de pantalla 2025-04-12 204604.png') // adjust path accordingly
-    .then((res) => res.blob())
-    .then((blob) => {
-      const data = {
-        username: "admin2000121212",
-        email: "abc1231@mailsasax.com",
-        password: "string",
-        name: "string",
-        lastName: "string",
-        firebaseToken: "string",
-        roles: "ROLE_USER, ROLE_ADMIN",
-      };
-
-      const formData = new FormData();
-
-      (Object.keys(data) as (keyof typeof data)[]).forEach((key) => {
-        const value = data[key];
-        if (Array.isArray(value)) {
-          formData.append(key, JSON.stringify(value)); // Use 'key' directly or `${key}[]` depending on backend
-        } else {
-          formData.append(key, value);
-        }
-      });
-
-      AuthService.register(formData);
-  });*/

@@ -4,7 +4,7 @@ import { Checkbox, CheckboxGroup } from '@heroui/react'
 import { Values } from './Signup' // Adjust the import if needed
 
 // List of available roles
-const availableRoles = ['Usuario', 'Administrador', 'Moderador']
+const availableRoles = ['Usuario', 'Administrador', 'Moderador', 'Cliente', 'Trabajador']
 
 const RolesCheckboxes = () => {
   const { values, setFieldValue } = useFormikContext<Values>()
@@ -24,6 +24,7 @@ const RolesCheckboxes = () => {
   return (
     <div role="group" aria-labelledby="checkbox-group">
       <CheckboxGroup>
+        <p>Roles</p>
         {availableRoles.map(role => (
           <Checkbox key={role} value={role} onChange={handleChange}>
             {role}

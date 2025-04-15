@@ -41,7 +41,6 @@ function AppNavbar() {
                 Inicio
               </Link>
             </NavbarItem>
-
             <NavbarItem isActive={location.pathname === '/'}>
               <Link color="foreground" aria-current="page" href="/">
                 Administrador
@@ -50,7 +49,7 @@ function AppNavbar() {
           </NavbarContent>
           <NavbarContent justify="end">
             <NavbarItem className="hidden lg:flex">
-              <Link href="#">Ingresar</Link>
+              <Link href="/login">Ingresar</Link>
             </NavbarItem>
             <NavbarItem>
               <Button as={Link} color="primary" href="/signup" variant="flat">
