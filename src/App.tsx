@@ -11,6 +11,7 @@ import SwitchMode from './components/SwitchMode'
 import AppNavbar from './components/AppNavbar'
 import AppRoutes from './routes/AppRoutes'
 import { useNavigate, useHref } from 'react-router-dom'
+import AuthService from './services/auth.service'
 function App() {
   const navigate = useNavigate()
   return (

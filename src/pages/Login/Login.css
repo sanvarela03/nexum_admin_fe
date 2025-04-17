@@ -1,0 +1,82 @@
+.login-field {
+    margin: 0;
+    width: 100%;
+    min-height: 70px;
+    background-color: transparent;
+    color: black;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid #5a5c7f;
+}
+.dark .login-field {
+    color: white;
+}
+.login-field:focus {
+    outline: none;
+    border: 1px solid rgba(126, 74, 190, 0.679);
+    box-shadow: 0 0 5px #636af0;
+}
+.container-login {
+    border: 0px solid black;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.278);
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 10px;
+    min-height: 320px; /* Valor base, puede cambiarse según el diseño */
+    padding: 20px;
+    width: 400px;
+    margin: 0 auto;
+    transition: height 0.3s ease-in-out;
+}
+.dark .container-login {
+    border: 0px solid black;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.278);
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 10px;
+    min-height: 320px; /* Valor base, puede cambiarse según el diseño */
+    padding: 20px;
+    width: 400px;
+    margin: 0 auto;
+    transition: height 0.3s ease-in-out;
+}
+.container-login button.form-button[disabled] {
+    opacity: 0.4;
+    backdrop-filter: blur(5px);
+    pointer-events: none;
+}
+.container-login button.form-button {
+    width: 100%;
+    min-height: 50px;
+    border-radius: 10px;
+    padding: 0 1.5rem; /* px-6 */
+    color: white;
+    background-color: #4f46e5; /* Tailwind's indigo-600 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem; /* gap-2 */
+    transition: background-color 0.2s ease;
+}
+
+.container-login span + span {
+    margin: 0 10px;
+}
+
+.container-login button.form-button:hover {
+    background-color: #4338ca; /* Tailwind's indigo-700 */
+    cursor: pointer;
+    color: white;
+}
+
+.error-msg {
+    color: tomato;
+    font-size: 12px;
+    margin-top: 1px;
+    text-align: right;
+    font-weight: bold;
+}

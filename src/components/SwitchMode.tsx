@@ -1,8 +1,7 @@
 import { Switch } from '@heroui/react'
-import React from 'react'
 import { useTheme } from '@heroui/use-theme'
 
-export const MoonIcon = (props) => {
+export const MoonIcon = (props: object) => {
   return (
     <svg
       aria-hidden="true"
@@ -21,7 +20,7 @@ export const MoonIcon = (props) => {
   )
 }
 
-export const SunIcon = (props) => {
+export const SunIcon = (props: object) => {
   return (
     <svg
       aria-hidden="true"
