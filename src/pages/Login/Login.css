@@ -30,13 +30,26 @@
     margin: 0 auto;
     transition: height 0.3s ease-in-out;
 }
-
-.container-login button[disabled] {
+.dark .container-login {
+    border: 0px solid black;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.278);
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 10px;
+    min-height: 320px; /* Valor base, puede cambiarse según el diseño */
+    padding: 20px;
+    width: 400px;
+    margin: 0 auto;
+    transition: height 0.3s ease-in-out;
+}
+.container-login button.form-button[disabled] {
     opacity: 0.4;
     backdrop-filter: blur(5px);
     pointer-events: none;
 }
-.container-login button {
+.container-login button.form-button {
     width: 100%;
     min-height: 50px;
     border-radius: 10px;
@@ -54,7 +67,7 @@
     margin: 0 10px;
 }
 
-.container-login button:hover {
+.container-login button.form-button:hover {
     background-color: #4338ca; /* Tailwind's indigo-700 */
     cursor: pointer;
     color: white;

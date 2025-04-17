@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 import AuthService from '../../services/auth.service'
-import { Formik, Form, useField } from 'formik'
-import { Button, Input } from '@heroui/react'
+import { Formik, Form } from 'formik'
+import { Button } from '@heroui/react'
 import RolesCheckboxes from './RolesCheckbox'
+import HeroInput from '../../components/HeroInput'
 import './Signup.css'
 
 export interface Values {
@@ -17,58 +18,49 @@ export interface Values {
   roles: string[]
 }
 
-interface HeroInputProps {
-  label?: string
-  name: string
-  type: string
-  placeholder?: string
-  className?: string
-}
-
-const HeroInput = ({ label, ...props }: HeroInputProps) => {
-  const [field, meta] = useField(props)
-
-  // We consider the field invalid if it has been touched and there is an error
-  const isInvalid = meta.touched && !!meta.error
-
-  return (
-    <>
-      {label && <label htmlFor={props.name}>{label}</label>}
-      <Input
-        {...field}
-        {...props}
-        id={props.name}
-        /* The key piece: pass your "error state" prop here */
-        isInvalid={isInvalid}
-      />
-
-      {isInvalid && (
-        <div className="error-msg">{meta.error}</div>
-      )}
-    </>
-  )
-}
-
 const Register = () => {
   const navigate: NavigateFunction = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
+  const [isVisible, setIsVisible] = useState<boolean>(false)
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false)
+  const toggleVisibility = () => setIsVisible(!isVisible)
+  const toggleConfirmPasswordVisibility = () => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)
 
   const validationSchema = () => {
     return Yup.object().shape({
       username: Yup.string()
         .required('Usuario requerido')
         .min(4, 'El nombre de usuario debe tener al menos 4 caracteres'),
+
       password: Yup.string()
         .required('Contraseña requerida')
-        .min(5, 'La contraseña debe tener al menos 5 caracteres'),
-      email: Yup.string().required('Correo requerido').email('Correo inválido'),
+        .min(8, 'La contraseña debe tener al menos 8 caracteres')
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#^()_/-])[A-Za-z\d@$!%*?&.#^()_/-]+$/,
+          'La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial'
+        ),
+
+      confirmPassword: Yup.string()
+        .required('Confirmación de contraseña requerida')
+        .oneOf([Yup.ref('password')], 'Las contraseñas no coinciden'),
+
+      email: Yup.string()
+        .required('Correo requerido')
+        .email('Correo inválido'),
+
       name: Yup.string().required('Nombre requerido'),
+
       lastName: Yup.string().required('Apellido requerido'),
-      phone: Yup.string().required('Teléfono requerido'),
+
+      phone: Yup.string()
+        .required('Teléfono requerido')
+        .matches(/^[\d+\-]+$/, 'El teléfono solo puede contener números, "+" o "-"'),
+
       roles: Yup.array().of(Yup.string()),
-    })
+    });
   }
+
 
   const roles: Record<string, string> = {
     'Usuario'      : 'ROLE_USER',
@@ -117,6 +109,7 @@ const Register = () => {
       initialValues={{
         username: '',
         password: '',
+        confirmPassword: '',
         email: '',
         name: '',
         lastName: '',
@@ -126,63 +119,29 @@ const Register = () => {
       validationSchema={validationSchema}
       onSubmit={handleSignup}
     >
-      <Form className="container-login">
-        <h1 className="text-4xl font-bold text-center text-indigo-600 mb-6">
-          Crear cuenta
-        </h1>
+      {({ isValid, dirty }) => (
+        <Form className="container-signup">
+          <h1 className="text-4xl font-bold text-center text-indigo-600 mb-6">
+            Crear cuenta
+          </h1>
 
-        {/* Using our custom HeroInput for each text field */}
-        <HeroInput
-          name="username"
-          type="text"
-          placeholder="Usuario"
-          label="Usuario"
-        />
+          <HeroInput name="username" type="text" placeholder="Usuario" label="Usuario" />
+          <HeroInput name="password" type="password" placeholder="Contraseña" label="Contraseña" isPassword={true} isVisible={isVisible} toggleVisibility={toggleVisibility} />
+          <HeroInput name="confirmPassword" type="password" placeholder="Confirmar Contraseña" label="Confirmar Contraseña" isPassword={true} isVisible={isConfirmPasswordVisible} toggleVisibility={toggleConfirmPasswordVisibility} />
+          <HeroInput name="email" type="email" placeholder="Correo" label="Correo" />
+          <HeroInput name="name" type="text" placeholder="Nombre" label="Nombre" />
+          <HeroInput name="lastName" type="text" placeholder="Apellido" label="Apellido" />
+          <HeroInput name="phone" type="text" placeholder="Teléfono" label="Teléfono" />
 
-        <HeroInput
-          name="password"
-          type="password"
-          placeholder="Contraseña"
-          label="Contraseña"
-        />
+          <RolesCheckboxes name="roles" />
 
-        <HeroInput
-          name="email"
-          type="email"
-          placeholder="Correo"
-          label="Correo"
-        />
+          <Button type="submit" disabled={loading || !isValid || !dirty} className="form-button">
+            {loading ? 'Registrando...' : 'Crear cuenta'}
+          </Button>
 
-        <HeroInput
-          name="name"
-          type="text"
-          placeholder="Nombre"
-          label="Nombre"
-        />
-
-        <HeroInput
-          name="lastName"
-          type="text"
-          placeholder="Apellido"
-          label="Apellido"
-        />
-
-        <HeroInput
-          name="phone"
-          type="text"
-          placeholder="Teléfono"
-          label="Teléfono"
-        />
-
-        {/* Roles are handled via a custom RolesCheckboxes component */}
-        <RolesCheckboxes name="roles" />
-
-        <Button type="submit" disabled={loading}>
-          {loading ? 'Registrando...' : 'Crear cuenta'}
-        </Button>
-
-        {message && <div className="error-msg">{message}</div>}
-      </Form>
+          {message && <div className="error-msg">{message}</div>}
+        </Form>
+      )}
     </Formik>
   )
 }

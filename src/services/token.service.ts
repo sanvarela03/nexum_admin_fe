@@ -8,12 +8,12 @@ class TokenService {
 
   getLocalAccessToken() {
     const user = JSON.parse(localStorage.getItem('user') || '{}')
-    return user?.accessToken || null
+    return user?.token || null
   }
 
   updateLocalAccessToken(token: string) {
     const user = JSON.parse(localStorage.getItem('user') || '{}')
-    user.accessToken = token
+    user.token = token
     localStorage.setItem('user', JSON.stringify(user))
   }
 

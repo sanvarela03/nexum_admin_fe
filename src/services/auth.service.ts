@@ -15,7 +15,7 @@ class AuthService {
   async login(username: string, password: string) {
     const response = await api.post('auth/signin', { username, password })
       if (response.data.token) {
-          TokenService.setUser(response.data)
+        TokenService.setUser(response.data)
       }
       return response.data
   }
