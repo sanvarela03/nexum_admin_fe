@@ -56,7 +56,7 @@ const Register = () => {
       phone: Yup.string()
         .required('Teléfono requerido')
         .matches(
-          /^[\d+\-]+$/,
+          /^[\d+-]+$/,
           'El teléfono solo puede contener números, "+" o "-"'
         ),
 
