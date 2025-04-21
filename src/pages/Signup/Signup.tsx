@@ -23,9 +23,11 @@ const Register = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [isVisible, setIsVisible] = useState<boolean>(false)
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false)
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    useState<boolean>(false)
   const toggleVisibility = () => setIsVisible(!isVisible)
-  const toggleConfirmPasswordVisibility = () => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)
+  const toggleConfirmPasswordVisibility = () =>
+    setIsConfirmPasswordVisible(!isConfirmPasswordVisible)
 
   const validationSchema = () => {
     return Yup.object().shape({
@@ -45,9 +47,7 @@ const Register = () => {
         .required('Confirmación de contraseña requerida')
         .oneOf([Yup.ref('password')], 'Las contraseñas no coinciden'),
 
-      email: Yup.string()
-        .required('Correo requerido')
-        .email('Correo inválido'),
+      email: Yup.string().required('Correo requerido').email('Correo inválido'),
 
       name: Yup.string().required('Nombre requerido'),
 
@@ -55,30 +55,35 @@ const Register = () => {
 
       phone: Yup.string()
         .required('Teléfono requerido')
-        .matches(/^[\d+\-]+$/, 'El teléfono solo puede contener números, "+" o "-"'),
+        .matches(
+          /^[\d+\-]+$/,
+          'El teléfono solo puede contener números, "+" o "-"'
+        ),
 
       roles: Yup.array().of(Yup.string()),
-    });
+    })
   }
 
-
   const roles: Record<string, string> = {
-    'Usuario'      : 'ROLE_USER',
-    'Administrador': 'ROLE_ADMIN',
-    'Moderador'    : 'ROLE_MODERATOR',
+    Usuario: 'ROLE_USER',
+    Administrador: 'ROLE_ADMIN',
+    Moderador: 'ROLE_MODERATOR',
   }
 
   const handleSignup = (formValue: Values) => {
     setMessage('')
     setLoading(true)
-    const formData = new FormData();
+    const formData = new FormData()
 
     // Iterate and append form values including roles conversion
-    (Object.keys(formValue) as (keyof typeof formValue)[]).forEach((key) => {
+    ;(Object.keys(formValue) as (keyof typeof formValue)[]).forEach((key) => {
       const value = formValue[key]
       if (Array.isArray(value)) {
         let str = ''
-        value.forEach((item, index) => str = index === 0 ? `${roles[item]}` : `${str}, ${roles[item]}`)
+        value.forEach(
+          (item, index) =>
+            (str = index === 0 ? `${roles[item]}` : `${str}, ${roles[item]}`)
+        )
         formData.append(key, str) // Adjust key name if required by your backend
       } else {
         formData.append(key, value)
@@ -93,7 +98,9 @@ const Register = () => {
       },
       (error) => {
         const resMessage =
-          (error.response && error.response.data && error.response.data.message) ||
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
           error.message ||
           error.toString()
 
@@ -125,17 +132,62 @@ const Register = () => {
             Crear cuenta
           </h1>
 
-          <HeroInput name="username" type="text" placeholder="Usuario" label="Usuario" />
-          <HeroInput name="password" type="password" placeholder="Contraseña" label="Contraseña" isPassword={true} isVisible={isVisible} toggleVisibility={toggleVisibility} />
-          <HeroInput name="confirmPassword" type="password" placeholder="Confirmar Contraseña" label="Confirmar Contraseña" isPassword={true} isVisible={isConfirmPasswordVisible} toggleVisibility={toggleConfirmPasswordVisibility} />
-          <HeroInput name="email" type="email" placeholder="Correo" label="Correo" />
-          <HeroInput name="name" type="text" placeholder="Nombre" label="Nombre" />
-          <HeroInput name="lastName" type="text" placeholder="Apellido" label="Apellido" />
-          <HeroInput name="phone" type="text" placeholder="Teléfono" label="Teléfono" />
+          <HeroInput
+            name="username"
+            type="text"
+            placeholder="Usuario"
+            label="Usuario"
+          />
+          <HeroInput
+            name="password"
+            type="password"
+            placeholder="Contraseña"
+            label="Contraseña"
+            isPassword={true}
+            isVisible={isVisible}
+            toggleVisibility={toggleVisibility}
+          />
+          <HeroInput
+            name="confirmPassword"
+            type="password"
+            placeholder="Confirmar Contraseña"
+            label="Confirmar Contraseña"
+            isPassword={true}
+            isVisible={isConfirmPasswordVisible}
+            toggleVisibility={toggleConfirmPasswordVisibility}
+          />
+          <HeroInput
+            name="email"
+            type="email"
+            placeholder="Correo"
+            label="Correo"
+          />
+          <HeroInput
+            name="name"
+            type="text"
+            placeholder="Nombre"
+            label="Nombre"
+          />
+          <HeroInput
+            name="lastName"
+            type="text"
+            placeholder="Apellido"
+            label="Apellido"
+          />
+          <HeroInput
+            name="phone"
+            type="text"
+            placeholder="Teléfono"
+            label="Teléfono"
+          />
 
           <RolesCheckboxes name="roles" />
 
-          <Button type="submit" disabled={loading || !isValid || !dirty} className="form-button">
+          <Button
+            type="submit"
+            disabled={loading || !isValid || !dirty}
+            className="form-button"
+          >
             {loading ? 'Registrando...' : 'Crear cuenta'}
           </Button>
 

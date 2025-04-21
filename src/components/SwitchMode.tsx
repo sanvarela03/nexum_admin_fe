@@ -38,7 +38,7 @@ export const SunIcon = (props: object) => {
     </svg>
   )
 }
-function SwitchMode() {
+export default function SwitchMode() {
   const { theme, setTheme } = useTheme()
   return (
     <>
@@ -59,5 +59,3 @@ function SwitchMode() {
     </>
   )
 }
-
-export default SwitchMode

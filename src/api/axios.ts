@@ -2,9 +2,8 @@ import axios from 'axios'
 import TokenService from '../services/token.service'
 
 const api = axios.create({
-  baseURL: await import.meta.env.VITE_API_BASE_URL,
-  headers: {
-  },
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  headers: {},
 })
 
 const requestLimiter = new Map<string, { count: number; timestamp: number }>()
@@ -54,10 +53,11 @@ api.interceptors.response.use(
     const originalConfig = error.config
 
     if (
-      (originalConfig?.url || '') !== 'auth/signin'
-      && (originalConfig?.url || '') !== 'auth/signup'
-      && error.response
-      && TokenService.getLocalAccessToken()) {
+      (originalConfig?.url || '') !== 'auth/signin' &&
+      (originalConfig?.url || '') !== 'auth/signup' &&
+      error.response &&
+      TokenService.getLocalAccessToken()
+    ) {
       if (error.response.status === 401 && !originalConfig._retry) {
         originalConfig._retry = true
         try {

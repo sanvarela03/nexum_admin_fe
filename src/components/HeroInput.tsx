@@ -21,37 +21,37 @@ const HeroInput = ({ label, ...props }: HeroInputProps) => {
   return (
     <>
       {label && <label htmlFor={props.name}>{label}</label>}
-        <Input
-            {...field}
-            {...props}
-            id={props.name}
-            isInvalid={isInvalid}
-            type={
-                props.isPassword
-                ? props.isVisible ? 'text' : 'password'
-                : props.type
-            }
-            endContent={
-            props.isPassword && (
-                <button
-                aria-label="toggle password visibility"
-                className="focus:outline-none"
-                type="button"
-                onClick={props.toggleVisibility}
-                >
-                {props.isVisible ? (
-                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                ) : (
-                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                )}
-                </button>
-            )
-            }
-        />
+      <Input
+        {...field}
+        {...props}
+        id={props.name}
+        isInvalid={isInvalid}
+        type={
+          props.isPassword
+            ? props.isVisible
+              ? 'text'
+              : 'password'
+            : props.type
+        }
+        endContent={
+          props.isPassword && (
+            <button
+              aria-label="toggle password visibility"
+              className="focus:outline-none"
+              type="button"
+              onClick={props.toggleVisibility}
+            >
+              {props.isVisible ? (
+                <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+              ) : (
+                <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+              )}
+            </button>
+          )
+        }
+      />
 
-        {isInvalid && (
-            <div className="error-msg">{meta.error}</div>
-        )}
+      {isInvalid && <div className="error-msg">{meta.error}</div>}
     </>
   )
 }

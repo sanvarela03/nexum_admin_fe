@@ -4,10 +4,18 @@ import { Checkbox, CheckboxGroup } from '@heroui/react'
 import { Values } from './Signup' // Adjust the import if needed
 
 // List of available roles
-const availableRoles = ['Usuario', 'Administrador', 'Moderador', 'Cliente', 'Trabajador']
+const availableRoles = [
+  'Usuario',
+  'Administrador',
+  'Moderador',
+  'Cliente',
+  'Trabajador',
+]
 
-const RolesCheckboxes = () => {
+const RolesCheckboxes = ({ name }: { name: string }) => {
   const { values, setFieldValue } = useFormikContext<Values>()
+
+  console.log('name', name)
 
   // This function will be called for each checkbox toggle.
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +25,10 @@ const RolesCheckboxes = () => {
     if (e.target.checked) {
       setFieldValue('roles', [...currentRoles, role])
     } else {
-      setFieldValue('roles', currentRoles.filter(r => r !== role))
+      setFieldValue(
+        'roles',
+        currentRoles.filter((r) => r !== role)
+      )
     }
   }
 
@@ -25,7 +36,7 @@ const RolesCheckboxes = () => {
     <div role="group" aria-labelledby="checkbox-group">
       <CheckboxGroup>
         <p>Roles</p>
-        {availableRoles.map(role => (
+        {availableRoles.map((role) => (
           <Checkbox key={role} value={role} onChange={handleChange}>
             {role}
           </Checkbox>
