@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Button,
   Link,
@@ -16,7 +15,13 @@ function AppNavbar() {
   const location = useLocation()
   return (
     <div>
-      <Navbar isBordered className="w-full py-4" height="2rem" maxWidth="lg">
+      <Navbar
+        shouldHideOnScroll={false}
+        isBordered
+        className="w-full py-4"
+        height="2rem"
+        maxWidth="lg"
+      >
         <div className="flex w-full items-center justify-between px-4">
           <NavbarBrand className="flex-row gap-5 mr-10 ml-0">
             {/* <img
@@ -41,7 +46,6 @@ function AppNavbar() {
                 Inicio
               </Link>
             </NavbarItem>
-
             <NavbarItem isActive={location.pathname === '/'}>
               <Link color="foreground" aria-current="page" href="/">
                 Administrador
@@ -50,10 +54,10 @@ function AppNavbar() {
           </NavbarContent>
           <NavbarContent justify="end">
             <NavbarItem className="hidden lg:flex">
-              <Link href="#">Ingresar</Link>
+              <Link href="/login">Ingresar</Link>
             </NavbarItem>
             <NavbarItem>
-              <Button as={Link} color="primary" href="#" variant="flat">
+              <Button as={Link} color="primary" href="/signup" variant="flat">
                 Registrarse
               </Button>
             </NavbarItem>

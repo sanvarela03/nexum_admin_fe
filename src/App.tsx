@@ -1,13 +1,6 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './output.css'
-
 import { HeroUIProvider } from '@heroui/react'
 import './App.css'
-import { Button } from '@heroui/react'
-import { p } from 'framer-motion/client'
-import SwitchMode from './components/SwitchMode'
 import AppNavbar from './components/AppNavbar'
 import AppRoutes from './routes/AppRoutes'
 import { useNavigate, useHref } from 'react-router-dom'

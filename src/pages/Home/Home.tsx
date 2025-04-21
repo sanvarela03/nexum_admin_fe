@@ -1,6 +1,4 @@
 import { Button } from '@heroui/react'
-import React from 'react'
-import SwitchMode from '../components/SwitchMode'
 
 function Home() {
   return (

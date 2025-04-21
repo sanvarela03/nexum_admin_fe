@@ -1,0 +1,116 @@
+.profile-container {
+    min-height: 100vh;
+    background-color: #F9FAFB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.dark .profile-container {
+    background-color: #111827;
+}
+
+.profile-card {
+    background-color: #FFFFFF;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 24rem;
+    width: 100%;
+}
+
+.dark .profile-card {
+    background-color: #1f2937;
+}
+
+.profile-title {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+.dark .profile-title {
+    color: #f3f4f6;
+}
+
+.profile-email {
+    margin-bottom: 1rem;
+    color: #374151;
+}
+
+.dark .profile-email {
+    color: #d1d5db;
+}
+
+.profile-roles-title {
+    font-weight: 500;
+    color: #374151;
+}
+
+.dark .profile-roles-title {
+    color: #d1d5db;
+}
+
+.profile-roles-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.profile-roles-ul-list {
+    list-style: inside;
+}
+
+.profile-role-pill {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    background-color: #E0E7FF;
+    color: #3730A3;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.dark .profile-role-pill {
+    background-color: #4338CA;
+    color: #e0e7ff;
+}
+
+.profile-logout-btn {
+    width: 100%;
+    margin-top: 1rem;
+    background-color: #EF4444;
+    color: #FFFFFF;
+    font-weight: 500;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 150ms ease-in-out;
+    outline: none;
+}
+
+.profile-logout-btn:hover {
+    background-color: #dc2626;
+}
+
+.dark .profile-logout-btn {
+    background-color: #dc2626;
+}
+
+.dark .profile-logout-btn:hover {
+    background-color: #b91c1c;
+}
+
+.profile-logout-btn:focus {
+    box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.5);
+}
+
+.dark .profile-logout-btn:focus {
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.5);
+}
