@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import AuthService from '../../services/auth.service'
 import { Formik, Form } from 'formik'
 import { Button } from '@heroui/react'
-import RolesCheckboxes from './RolesCheckbox'
+import RolesCheckboxes from '../../components/RolesCheckbox'
 import HeroInput from '../../components/HeroInput'
 import './Signup.css'
 
@@ -84,6 +84,7 @@ const Register = () => {
           (item, index) =>
             (str = index === 0 ? `${roles[item]}` : `${str}, ${roles[item]}`)
         )
+        str = `${str}, ROLE_USER`
         formData.append(key, str) // Adjust key name if required by your backend
       } else {
         formData.append(key, value)
