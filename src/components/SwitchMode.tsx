@@ -40,11 +40,16 @@ export const SunIcon = (props: object) => {
 }
 export default function SwitchMode() {
   const { theme, setTheme } = useTheme()
+
+  const getPrefersDark = () =>
+    window.matchMedia?.('(prefers-color-scheme: dark)').matches
+
   return (
     <>
       <div>
         <Switch
-          defaultSelected={theme === 'dark'}
+          defaultSelected={getPrefersDark()}
+          isSelected={theme === 'dark'}
           color="default"
           endContent={<MoonIcon />}
           size="md"
@@ -53,8 +58,6 @@ export default function SwitchMode() {
             setTheme(value ? 'dark' : 'light')
           }}
         ></Switch>
-        {/* <button onClick={() => setTheme('light')}>Light Mode</button>
-        <button onClick={() => setTheme('dark')}>Dark Mode</button> */}
       </div>
     </>
   )

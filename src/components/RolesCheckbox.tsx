@@ -1,11 +1,10 @@
 import React from 'react'
 import { useFormikContext } from 'formik'
 import { Checkbox, CheckboxGroup } from '@heroui/react'
-import { Values } from './Signup' // Adjust the import if needed
+import { Values } from '../pages/Signup/Signup' // Adjust the import if needed
 
 // List of available roles
 const availableRoles = [
-  'Usuario',
   'Administrador',
   'Moderador',
   'Cliente',
