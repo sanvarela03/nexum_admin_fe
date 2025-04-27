@@ -26,11 +26,11 @@ const Login = () => {
         .min(4, 'El nombre de usuario debe tener al menos 4 caracteres'),
       password: Yup.string()
         .required('Contraseña requerida')
-        .min(8, 'La contraseña debe tener al menos 8 caracteres')
-        .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#^()_/-])[A-Za-z\d@$!%*?&.#^()_/-]+$/,
-        'La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial'
-        ),
+        .min(5, 'La contraseña debe tener al menos 5 caracteres'),
+      // .matches(
+      //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#^()_/-])[A-Za-z\d@$!%*?&.#^()_/-]+$/,
+      //   'La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial'
+      // ),
     })
   }
 
@@ -45,11 +45,11 @@ const Login = () => {
       },
       (error) => {
         const resMessage =
-            (error.response &&
+          (error.response &&
             error.response.data &&
             error.response.data.message) ||
-            error.message ||
-            error.toString()
+          error.message ||
+          error.toString()
 
         // const resMessage = error.message || error.toString()
 
@@ -71,19 +71,19 @@ const Login = () => {
     >
       {({ isValid, dirty }) => (
         <Form className="container-login">
-            <h1 className="text-4xl font-bold text-center text-indigo-600 mb-6">
+          <h1 className="text-4xl font-bold text-center text-indigo-600 mb-6">
             Iniciar sesión
-            </h1>
+          </h1>
 
-            {/* Using our custom HeroInput for each text field */}
-            <HeroInput
+          {/* Using our custom HeroInput for each text field */}
+          <HeroInput
             name="username"
             type="text"
             placeholder="Usuario"
             label="Usuario"
-            />
+          />
 
-            <HeroInput
+          <HeroInput
             name="password"
             type="password"
             placeholder="Contraseña"
@@ -91,13 +91,17 @@ const Login = () => {
             isPassword={true}
             isVisible={isVisible}
             toggleVisibility={toggleVisibility}
-            />
+          />
 
-            <Button type="submit" disabled={loading || !isValid || !dirty} className='form-button'>
+          <Button
+            type="submit"
+            disabled={loading || !isValid || !dirty}
+            className="form-button"
+          >
             {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
-            </Button>
+          </Button>
 
-            {message && <div className="error-msg">{message}</div>}
+          {message && <div className="error-msg">{message}</div>}
         </Form>
       )}
     </Formik>

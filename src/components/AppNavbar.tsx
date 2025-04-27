@@ -35,7 +35,7 @@ function AppNavbar() {
               alt="HeroUI Album Cover"
               className="mr-3"
               radius="md"
-              src="../../public/nexum-v2.svg"
+              src="/nexum-v2.svg"
               width={60}
             />
             <p className="font-bold text-inherit">NEXUM</p>
