@@ -52,6 +52,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalConfig = error.config
 
+    console.log('S_error: ', error)
     console.log(error.response)
 
     if (

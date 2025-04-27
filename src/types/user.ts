@@ -12,4 +12,5 @@ export interface UserResponse {
   lastLogin: string
   imgUrl?: string
   enabled: boolean
+  roles: string[]
 }
