@@ -1,7 +1,9 @@
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 import tokenService from '../../services/token.service'
 import AuthService from '../../services/auth.service'
+import userService from '../../services/user.service'
 import './profile.css'
+import { useEffect } from 'react'
 
 export default function Profile() {
   const navigate: NavigateFunction = useNavigate()
@@ -11,6 +13,10 @@ export default function Profile() {
     await AuthService.logout()
     navigate('/login')
   }
+
+  useEffect(() => {
+    userService.getUsers()
+  }, [])
 
   return (
     <div className="profile-container">
