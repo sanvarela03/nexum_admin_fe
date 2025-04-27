@@ -77,9 +77,9 @@ export const users = [
   },
 ]
 
-function formatearFecha(fechaString) {
+function formatearFecha(fechaString: string) {
   const fecha = new Date(fechaString.replace(' ', 'T'))
-  const opciones = {
+  const opciones: Intl.DateTimeFormatOptions = {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
@@ -92,7 +92,7 @@ function formatearFecha(fechaString) {
   return fechaLegible.charAt(0).toUpperCase() + fechaLegible.slice(1)
 }
 
-export const EyeIcon = (props) => {
+export const EyeIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       aria-hidden="true"
@@ -122,7 +122,7 @@ export const EyeIcon = (props) => {
   )
 }
 
-export const DeleteIcon = (props) => {
+export const DeleteIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       aria-hidden="true"
@@ -173,7 +173,7 @@ export const DeleteIcon = (props) => {
   )
 }
 
-export const EditIcon = (props) => {
+export const EditIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       aria-hidden="true"
@@ -213,16 +213,16 @@ export const EditIcon = (props) => {
   )
 }
 
-const statusColorMap = {
-  active: 'success',
-  paused: 'danger',
-  vacation: 'warning',
-}
+// const statusColorMap = {
+//   active: 'success',
+//   paused: 'danger',
+//   vacation: 'warning',
+// }
 
 export default function AppTable({ userList }: { userList: UserResponse[] }) {
   const renderCell = React.useCallback(
     (user: UserResponse, columnKey: string) => {
-      const cellValue = user[columnKey]
+      const cellValue = user[columnKey as keyof UserResponse]
 
       switch (columnKey) {
         case 'id':
@@ -331,7 +331,7 @@ export default function AppTable({ userList }: { userList: UserResponse[] }) {
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
+              <TableCell>{renderCell(item, columnKey as string)}</TableCell>
             )}
           </TableRow>
         )}
