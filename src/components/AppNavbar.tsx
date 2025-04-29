@@ -8,21 +8,28 @@ import {
   Image,
   Divider,
 } from '@heroui/react'
-import { useLocation } from 'react-router-dom'
+import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom'
 import SwitchMode from './SwitchMode'
 import TokenService from '../services/token.service'
+import AuthService from '../services/auth.service'
 
 function AppNavbar() {
   const location = useLocation()
   const token = TokenService.getLocalAccessToken()
+  const navigate: NavigateFunction = useNavigate()
+
+  const onSignOut = async () => {
+    await AuthService.logout()
+    navigate('/login')
+  }
 
   return (
     <Navbar
       shouldHideOnScroll={false}
       isBordered
-      className="w-full py-4"
+      className="py-4"
       height="2rem"
-      maxWidth="lg"
+      maxWidth="full"
     >
       <div className="flex w-full items-center justify-between">
         {/* Navbar Brand - Left-aligned logo */}
@@ -56,7 +63,7 @@ function AppNavbar() {
         <NavbarContent justify="end">
           {token ? (
             <NavbarItem>
-              <Button as={Link} color="danger" href="/signup" variant="flat">
+              <Button as={Link} color="danger" href="/signup" variant="flat" onClick={onSignOut}>
                 Cerrar Sesión
               </Button>
             </NavbarItem>
