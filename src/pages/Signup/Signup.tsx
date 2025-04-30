@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
-import AuthService from '../../services/auth.service'
+import { AuthService } from '@services'
 import { Formik, Form } from 'formik'
 import { Button } from '@heroui/react'
-import RolesCheckboxes from '../../components/RolesCheckbox'
-import HeroInput from '../../components/HeroInput'
+import { HeroInput, RolesCheckbox } from '@components'
 import './Signup.css'
 
 export interface Values {
@@ -182,7 +181,7 @@ const Register = () => {
             label="Teléfono"
           />
 
-          <RolesCheckboxes name="roles" />
+          <RolesCheckbox name="roles" />
 
           <Button
             type="submit"

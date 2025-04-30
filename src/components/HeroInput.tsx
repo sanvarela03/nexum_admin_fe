@@ -1,6 +1,6 @@
 import { useField } from 'formik'
 import { Input } from '@heroui/react'
-import { EyeFilledIcon, EyeSlashFilledIcon } from './PasswordIcons'
+import { EyeFilledIcon, EyeSlashFilledIcon } from '@components/icons'
 
 interface HeroInputProps {
   label?: string

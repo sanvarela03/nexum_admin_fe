@@ -10,8 +10,7 @@ import {
 } from '@heroui/react'
 import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom'
 import SwitchMode from './SwitchMode'
-import TokenService from '../services/token.service'
-import AuthService from '../services/auth.service'
+import { TokenService, AuthService } from '@services'
 
 function AppNavbar() {
   const location = useLocation()

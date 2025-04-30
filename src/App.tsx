@@ -1,8 +1,8 @@
 import './output.css'
 import { HeroUIProvider } from '@heroui/react'
 import './App.css'
-import AppNavbar from './components/AppNavbar'
-import AppRoutes from './routes/AppRoutes'
+import AppNavbar from '@components/AppNavbar'
+import AppRoutes from '@routes/AppRoutes'
 import { useNavigate, useHref } from 'react-router-dom'
 
 function App() {

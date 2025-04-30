@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
-import AuthService from '../../services/auth.service'
+import { AuthService } from '@services'
 import { Formik, Form } from 'formik'
 import { Button } from '@heroui/react'
-import HeroInput from '../../components/HeroInput'
+import { HeroInput } from '@components'
 import './Login.css'
 
 export interface Values {
