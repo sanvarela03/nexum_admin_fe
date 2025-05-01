@@ -14,3 +14,13 @@ export interface UserResponse {
   enabled: boolean
   roles: string[]
 }
+
+export interface UserEdit {
+  id: number
+  firstName: string
+  lastName: string
+  username: string
+  email: string
+  phone: string
+  password: string
+}
