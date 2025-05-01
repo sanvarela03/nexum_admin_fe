@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
-import * as Yup from 'yup'
 import { AuthService } from '@services'
 import { Formik, Form } from 'formik'
 import { Button } from '@heroui/react'
 import { HeroInput, RolesCheckbox } from '@components'
 import './Signup.css'
+import { createValidationSchema } from '@utils'
 
 export interface Values {
   username: string
@@ -28,40 +28,16 @@ const Register = () => {
   const toggleConfirmPasswordVisibility = () =>
     setIsConfirmPasswordVisible(!isConfirmPasswordVisible)
 
-  const validationSchema = () => {
-    return Yup.object().shape({
-      username: Yup.string()
-        .required('Usuario requerido')
-        .min(4, 'El nombre de usuario debe tener al menos 4 caracteres'),
-
-      password: Yup.string()
-        .required('Contraseña requerida')
-        .min(8, 'La contraseña debe tener al menos 8 caracteres')
-        .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#^()_/-])[A-Za-z\d@$!%*?&.#^()_/-]+$/,
-          'La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial'
-        ),
-
-      confirmPassword: Yup.string()
-        .required('Confirmación de contraseña requerida')
-        .oneOf([Yup.ref('password')], 'Las contraseñas no coinciden'),
-
-      email: Yup.string().required('Correo requerido').email('Correo inválido'),
-
-      name: Yup.string().required('Nombre requerido'),
-
-      lastName: Yup.string().required('Apellido requerido'),
-
-      phone: Yup.string()
-        .required('Teléfono requerido')
-        .matches(
-          /^[\d+-]+$/,
-          'El teléfono solo puede contener números, "+" o "-"'
-        ),
-
-      roles: Yup.array().of(Yup.string()),
-    })
-  }
+  const validationSchema = createValidationSchema([
+    'username',
+    'password',
+    'confirmPassword',
+    'email',
+    'name',
+    'lastName',
+    'phone',
+    'roles'
+  ])
 
   const roles: Record<string, string> = {
     Usuario: 'ROLE_USER',
@@ -69,7 +45,7 @@ const Register = () => {
     Moderador: 'ROLE_MODERATOR',
   }
 
-  const handleSignup = (formValue: Values) => {
+  const handleSignup = async (formValue: Values) => {
     setMessage('')
     setLoading(true)
     const formData = new FormData()
@@ -90,25 +66,24 @@ const Register = () => {
       }
     })
 
-    AuthService.register(formData).then(
-      () => {
-        console.log('success')
-        navigate('/login')
-        window.location.reload()
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString()
+    try {
+      await AuthService.register(formData)
+      console.log('success')
+      navigate('/login')
+      window.location.reload()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      const resMessage =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
 
-        setLoading(false)
-        console.error('Error en el signup ->', error)
-        setMessage(resMessage)
-      }
-    )
+      setLoading(false)
+      console.error('Error en el signup ->', error)
+      setMessage(resMessage)
+    }
   }
 
   return (

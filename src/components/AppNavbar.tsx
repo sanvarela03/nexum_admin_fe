@@ -62,7 +62,7 @@ function AppNavbar() {
         <NavbarContent justify="end">
           {token ? (
             <NavbarItem>
-              <Button as={Link} color="danger" href="/signup" variant="flat" onClick={onSignOut}>
+              <Button as={Link} color="danger" href="/login" variant="flat" onClick={onSignOut}>
                 Cerrar Sesión
               </Button>
             </NavbarItem>

@@ -2,20 +2,14 @@ import { Button } from '@heroui/react'
 
 function Home() {
   return (
-    <>
-      <p>Hi</p>
-      <Button
-        radius="md"
-        isLoading
-        startContent={<p>😎</p>}
-        endContent={<p>😉</p>}
-      >
-        Click me
-      </Button>
-      <Button isIconOnly radius="full">
-        <p>🚀</p>
-      </Button>
-    </>
+    <div className="grid grid-cols-2 gap-6">
+      <div className="bg-gray-100 p-4 rounded shadow">Item 1</div>
+      <div className="bg-gray-100 p-4 rounded shadow">Item 2</div>
+      <div className="bg-gray-100 p-4 rounded shadow">Item 3</div>
+      <div className="bg-gray-100 p-4 rounded shadow">Item 4</div>
+    </div>
+
+
   )
 }
 
