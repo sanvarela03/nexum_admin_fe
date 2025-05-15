@@ -11,7 +11,7 @@
       "@pages/*": ["pages/*"],
       "@routes/*": ["routes/*"],
       "@services": ["services/index.ts"],
-      "@types/*": ["types/*"],
+      "@app-types/*": ["types/*"],
       "@utils": ["utils/index.ts"]
     }
   },

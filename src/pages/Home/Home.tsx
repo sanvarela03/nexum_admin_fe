@@ -1,5 +1,3 @@
-import { Button } from '@heroui/react'
-
 function Home() {
   return (
     <div className="grid grid-cols-2 gap-6">

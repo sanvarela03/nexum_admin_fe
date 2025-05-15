@@ -1,7 +1,7 @@
-import { TokenService, UserService }  from '@services'
+import { UserService }  from '@services'
 import './profile.css'
 import { useEffect, useState } from 'react'
-import { UserEdit, UserResponse } from '@types/user'
+import { UserEdit, UserResponse } from '@app-types/user'
 import { AppTable, HeroInput } from '@components'
 import { addToast, Button, Chip, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Tooltip, User } from '@heroui/react'
 import { formatearFecha, createValidationSchema } from '@utils';
@@ -22,8 +22,6 @@ interface UserEditForm {
 type ColorToast = 'default' | 'foreground' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | undefined
 
 export default function Profile() {
-  const user = TokenService.getUser()
-
   const [users, setUsers] = useState<UserResponse[]>([])
   const [isEditOpen, setIsEditOpen] = React.useState(false)
   const [userToEdit, setUserToEdit] = React.useState<UserResponse | null>(null)
@@ -261,7 +259,7 @@ export default function Profile() {
               phone: userToEdit.phone || "",
               password: "",
             }}
-            validationSchema={validationSchema} // ← use Yup here
+            validationSchema={validationSchema}
             onSubmit={handleUserEdit}
           >
             {({ isValid, dirty }) => (
@@ -269,7 +267,6 @@ export default function Profile() {
                 <ModalContent>
                   <ModalHeader>Editar Usuario</ModalHeader>
                   <ModalBody>
-                    {/** Same fields as before **/}
                     <HeroInput
                       name="username"
                       type="text"
@@ -310,12 +307,10 @@ export default function Profile() {
                       placeholder="Teléfono"
                       label="Teléfono"
                     />
-
-                    {/* firstName, lastName, email, phone… */}
                   </ModalBody>
                   <ModalFooter className="flex justify-end gap-2">
                     <Button
-                      variant="flat" // or "flat"
+                      variant="flat"
                       size="sm"
                       onClick={() => setIsEditOpen(false)}
                     >

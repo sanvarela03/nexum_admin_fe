@@ -1,5 +1,5 @@
 import api from '../api/axios';
-import { UserEdit } from '@types/user';
+import { UserEdit } from '@app-types/user';
 
 class UserService {
   async getUsers() {

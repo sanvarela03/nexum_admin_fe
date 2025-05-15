@@ -1,4 +1,4 @@
-import { AuthResponse } from "@types/auth"
+import { AuthResponse } from "@app-types/auth"
 
 class TokenService {
   getLocalRefreshToken() {
