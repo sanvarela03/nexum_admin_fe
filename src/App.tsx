@@ -4,6 +4,7 @@ import './App.css'
 import AppNavbar from './components/AppNavbar'
 import AppRoutes from './routes/AppRoutes'
 import { useNavigate, useHref } from 'react-router-dom'
+import Test3D from './components/3D/Test3D'
 
 function App() {
   const navigate = useNavigate()
@@ -20,6 +21,7 @@ function App() {
         </div>
       </div>
     </HeroUIProvider>
+    // <Test3D />
   )
 }
 

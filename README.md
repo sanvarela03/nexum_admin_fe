@@ -20,3 +20,9 @@ npx tailwindcss init
 
 npx tailwindcss -i ./src/input.css -o ./src/output.css --watch
 ```
+
+# Generar modelo 3d
+
+```bash
+npx gltfjsx public/blenderFileName.glb -t
+```

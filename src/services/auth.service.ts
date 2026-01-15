@@ -13,7 +13,7 @@ interface RegisterRequest {
 
 class AuthService {
   async login(username: string, password: string) {
-    const response = await api.post('auth/signin', { username, password })
+    const response = await api.post('auth/sign-in', { username, password })
     if (response.data.token) {
       TokenService.setUser(response.data)
     }
@@ -21,7 +21,7 @@ class AuthService {
   }
 
   async logout() {
-    return api.post('auth/signout').then((response) => {
+    return api.post('auth/sign-out').then((response) => {
       if (response.data) {
         TokenService.removeUser()
       }
@@ -32,7 +32,7 @@ class AuthService {
   register(data: RegisterRequest | FormData) {
     const isFormData = data instanceof FormData
 
-    return api.post('auth/signup', data, {
+    return api.post('auth/sign-up', data, {
       headers: isFormData ? { 'Content-Type': 'multipart/form-data' } : { 'Content-Type': 'application/json' }
     })
   }
