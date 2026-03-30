@@ -47,7 +47,7 @@ export default function AppTable<T>({
       <TableBody items={list}>
         {(item) => (
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          <TableRow key={(item as any).id}>
+          <TableRow key={(item as any).userId}>
             {(columnKey) => (
               <TableCell>
                 {renderCell(item, columnKey as string, ...renderCellArgs)}

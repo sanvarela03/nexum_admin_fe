@@ -3,12 +3,12 @@ import { UserEdit } from '@app-types/user';
 
 class UserService {
   async getUsers() {
-    const response = await api.get('users')
+    const response = await api.get('users/sessions')
     return response
   }
 
   async disableUser(userId: number) {
-    const response = await api.put(`users/${userId}?disable=true`)
+    const response = await api.put(`users/disable/${userId}`)
     return response
   }
 
@@ -22,6 +22,11 @@ class UserService {
       phone: editUserObject.phone,
       password: editUserObject.password,
     })
+    return response
+  }
+
+  async logoutUser(userId: number) {
+    const response = await api.put(`users/${userId}/logout`)
     return response
   }
 }

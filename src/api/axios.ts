@@ -64,12 +64,13 @@ api.interceptors.response.use(
       if (error.response.status === 401 && !originalConfig._retry) {
         originalConfig._retry = true
         try {
-          const rs = await api.post('/auth/refreshtoken', {
+          const rs = await api.post('/auth/refresh-token', {
             refreshToken: TokenService.getLocalRefreshToken(),
           })
           TokenService.updateLocalAccessToken(rs.data.accessToken)
           return api(originalConfig)
         } catch (_error) {
+          TokenService.removeUser()
           return Promise.reject(_error)
         }
       }

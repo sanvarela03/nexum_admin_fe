@@ -1,5 +1,12 @@
+export interface Session {
+  token: string
+  deviceName: string
+  sessionExpiryDate: string
+  sessionCreatedAt: string
+}
+
 export interface UserResponse {
-  id: number
+  userId: number
   firstName: string
   lastName: string
   username: string
@@ -11,8 +18,9 @@ export interface UserResponse {
   dateJoined: string
   lastLogin: string
   imgUrl?: string
-  enabled: boolean
-  roles: string[]
+  isEnabled: boolean
+  roles: string[],
+  sessions: Session[]
 }
 
 export interface UserEdit {

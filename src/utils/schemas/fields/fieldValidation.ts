@@ -6,11 +6,7 @@ export const usernameValidation: Yup.StringSchema<string> = Yup.string()
 
 export const passwordValidation: Yup.StringSchema<string> = Yup.string()
   .required('Contraseña requerida')
-  .min(8, 'La contraseña debe tener al menos 8 caracteres')
-  .matches(
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#^()_/-])[A-Za-z\d@$!%*?&.#^()_/-]+$/,
-    'La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial'
-  )
+  .min(4, 'La contraseña debe tener al menos 8 caracteres')
 
 export const confirmPasswordValidation: Yup.StringSchema<string, Yup.AnyObject> = Yup.string()
   .required('Confirmación de contraseña requerida')
