@@ -21,5 +21,6 @@ export function formatearFechaLegible(fechaString: string) {
     hour12: true,
   }
   const fechaLegible = fecha.toLocaleString('es-ES', opciones)
+  console.log('Fecha formateada:',  fechaLegible.charAt(0).toUpperCase() + fechaLegible.slice(1))
   return fechaLegible.charAt(0).toUpperCase() + fechaLegible.slice(1)
 }

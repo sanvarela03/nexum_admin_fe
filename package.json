@@ -21,6 +21,7 @@
     "formik": "^2.4.6",
     "framer-motion": "^12.6.3",
     "leaflet": "^1.9.4",
+    "lucide-react": "^1.16.0",
     "nexum_admin_fe": "file:",
     "react": "^19.0.0-rc.1",
     "react-dom": "^19.0.0-rc.1",

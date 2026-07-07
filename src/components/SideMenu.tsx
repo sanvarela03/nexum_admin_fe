@@ -9,9 +9,9 @@ type MenuItem = {
 
 const menuItems: MenuItem[] = [
   { label: 'Home', path: '/' },
-  { label: 'Profile', path: '/profile', roles: ['ROLE_ADMIN'] },
-  { label: 'Users', path: '/users', roles: ['ROLE_ADMIN'] },
-  { label: 'Map', path: '/map', roles: ['ROLE_ADMIN'] },
+  { label: 'Perfil', path: '/profile', roles: ['ROLE_ADMIN'] },
+  { label: 'Usuarios', path: '/users', roles: ['ROLE_ADMIN'] },
+  { label: 'Mapa', path: '/map', roles: ['ROLE_ADMIN'] },
 ]
 
 const SideMenu = () => {

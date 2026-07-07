@@ -1,2 +1,6 @@
 export * from './date.utils'
+export * from './color.utils'
+export * from './centroid.util'
+export * from './country_meta.utils'
+export * from './getCityPopulation.utils'
 export { default as createValidationSchema } from './schemas/validation.schema'

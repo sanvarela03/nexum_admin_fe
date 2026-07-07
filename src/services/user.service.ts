@@ -2,8 +2,9 @@ import api from '../api/axios';
 import { UserEdit } from '@app-types/user';
 
 class UserService {
-  async getUsers() {
-    const response = await api.get('users/sessions')
+  async getUsers(page: number = 0, size: number = 10, sort: string = 'id,asc') {
+    console.log(`Fetching users with page=${page}, size=${size}, sort=${sort}`)
+    const response = await api.get('users/sessions', { params: { page, size, sort } })
     return response
   }
 

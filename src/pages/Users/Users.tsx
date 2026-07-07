@@ -2,7 +2,7 @@ import { UserService }  from '@services'
 import './users.css'
 import { useEffect, useState } from 'react'
 import { Session, UserEdit, UserResponse } from '@app-types/user'
-import { AppTable, HeroInput } from '@components'
+import { AppTable, HeroInput, UserFirstName } from '@components'
 import { addToast, Button, Chip, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Tooltip, User } from '@heroui/react'
 import { formatearFecha, createValidationSchema, formatearFechaLegible } from '@utils';
 import { EditIcon, EyeIcon } from '@components/icons'
@@ -31,6 +31,9 @@ export default function Users() {
   const [isVisible, setIsVisible] = React.useState<boolean>(false)
   const [isBeingUpdated, setIsBeingUpdated] = React.useState<boolean>(false)
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null)
+  const [page, setPage] = React.useState<number>(1)
+  const [totalPages, setTotalPages] = React.useState<number>(1)
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5)
 
   const toggleVisibility = () => setIsVisible(!isVisible)
 
@@ -84,8 +87,11 @@ export default function Users() {
 
   const fetchUsers = async () => {
     try {
-      const response = await UserService.getUsers()
-      setUsers(response.data.map(u => {u.imgUrl = null; return u;}) || [])
+      console.log('Page changed to:', page)
+      const response = await UserService.getUsers(page - 1, rowsPerPage, 'id,asc')
+      setUsers(response.data.content || [])
+      console.log(response.data.content)
+      setTotalPages(response.data.totalPages || 1)
       showToast('Lista de usuarios', 'Se cargó la lista de usuarios exitosamente', 'success')
     } catch (error) {
       showToast('Lista de usuarios', 'Error cargando la lista de usuarios', 'danger')
@@ -148,111 +154,102 @@ export default function Users() {
     { name: 'ROLES', uid: 'roles' },
     { name: 'SESIONES ACTIVAS', uid: 'sessions' },
     { name: 'ESTADO', uid: 'isEnabled' },
-    { name: 'ÚLTIMO INICIO DE SESIÓN', uid: 'lastLogin' },
     { name: 'INGRESO A LA PLATAFORMA', uid: 'dateJoined' },
+    { name: 'ÚLTIMO INICIO DE SESIÓN', uid: 'lastLogin' },
     { name: 'ACCIONES', uid: 'actions' },
   ]
 
-  const getColorFromString = (str: string) => {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
+  const onPageChange = (newPage: number) => setPage(newPage)
 
-    const hue = Math.abs(hash) % 360;
-    return `hsl(${hue}, 60%, 50%)`;
-  };
+  const onRowsPerPageChange = (newRowsPerPage: number) => setRowsPerPage(newRowsPerPage)
+
+  useEffect(() => {
+    fetchUsers()
+  }, [page, rowsPerPage])
 
   const renderCell = React.useCallback(
     (user: UserResponse, columnKey: string) => {
       const cellValue = user[columnKey as keyof UserResponse]
 
+      console.log('Rendering cell for column:', columnKey, 'with value:', cellValue)
+
       switch (columnKey) {
         case 'userId':
           return (
-            <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{user.userId}</p>
+            <div className="flex flex-col min-w-[80px]">
+              <p className="font-bold text-xs sm:text-sm break-all">{user.userId}</p>
             </div>
           )
-        case 'firstName': {
-          const fullName = `${user.firstName} ${user.lastName}`;
-          const initials = `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`.toUpperCase();
 
-          const fallbackColor = getColorFromString(fullName);
-
-          const isFallback = !user.imgUrl;
-
-          console.log(`Rendering user ${fullName} with fallback color ${fallbackColor} and isFallback=${isFallback}`)
-
+        case 'firstName':
           return (
-            <User
-              name={fullName}
-              description={user.email}
-              avatarProps={{
-                radius: 'lg',
-                src: user.imgUrl || undefined,
-                name: initials,
-                style: !user.imgUrl
-                  ? { backgroundColor: getColorFromString(fullName), color: 'white' }
-                  : undefined,
-              }}
-            >
-              {user.email}
-            </User>
-          );
-        }
+            <div className="min-w-[180px]">
+              <UserFirstName user={user} />
+            </div>
+          )
+
         case 'roles':
-          return user.roles.map((role: string) => (
-            <Chip
-              key={role}
-              className="capitalize"
-              color={'primary'}
-              size="sm"
-              variant="flat"
-            >
-              {role}
-            </Chip>
-          ))
+          return (
+            <div className="flex flex-wrap gap-1 max-w-[160px] sm:max-w-none">
+              {user.roles.map((role: string) => (
+                <Chip
+                  key={role}
+                  className="capitalize"
+                  color="primary"
+                  size="sm"
+                  variant="flat"
+                >
+                  {role}
+                </Chip>
+              ))}
+            </div>
+          )
 
         case 'lastLogin':
           return (
-            <Tooltip
-              content={
-                <span className="text-xs">
-                  {formatearFechaLegible(user.lastLogin)}
-                </span>
-              }
-            >
-              <div className="flex flex-col">
-                <p className="text-bold text-sm capitalize text-default-400">
-                  {formatearFecha(user.lastLogin)}
-                </p>
-              </div>
-            </Tooltip>
+            <div>
+              <Tooltip
+                content={
+                  <span className="text-xs">
+                    {formatearFechaLegible(user.lastLogin)}
+                  </span>
+                }
+              >
+                <div className="flex flex-col min-w-[110px]">
+                  <p className="font-bold text-xs sm:text-sm text-default-400">
+                    {formatearFecha(user.lastLogin)}
+                  </p>
+                </div>
+              </Tooltip>
+            </div>
           )
 
         case 'dateJoined':
           return (
-            <Tooltip
-              content={
-                <span className="text-xs">
-                  {formatearFechaLegible(user.dateJoined)}
-                </span>
-              }
-            >
-              <div className="flex flex-col">
-                <p className="text-bold text-sm capitalize text-default-400">
-                  {formatearFecha(user.dateJoined)}
-                </p>
-              </div>
-            </Tooltip>
-          )
-        case 'username':
-          return (
-            <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{user.username}</p>
+            <div>
+              <Tooltip
+                content={
+                  <span className="text-xs">
+                    {formatearFechaLegible(user.dateJoined)}
+                  </span>
+                }
+              >
+                <div className="flex flex-col min-w-[110px]">
+                  <p className="font-bold text-xs sm:text-sm text-default-400">
+                    {formatearFecha(user.dateJoined)}
+                  </p>
+                </div>
+              </Tooltip>
             </div>
           )
+
+        case 'username':
+          return (
+            <div className="hidden sm:flex flex-col min-w-[120px]">
+              <p className="font-bold text-xs sm:text-sm break-all">{user.username}</p>
+            </div>
+          )
+
         case 'sessions':
           return (
             <div
@@ -261,24 +258,31 @@ export default function Users() {
                   onSessionClick(user.sessions)
                 }
               }}
-              className="flex flex-col items-center">
-              <p className="text-bold text-sm capitalize underline">{user.sessions.length}</p>
+              className="flex flex-col items-center justify-center min-w-[60px] cursor-pointer"
+            >
+              <p className="font-bold text-xs sm:text-sm underline">
+                {user.sessions.length}
+              </p>
             </div>
           )
+
         case 'isEnabled':
           return (
-            <Chip
-              className="capitalize"
-              color={user.isEnabled ? 'success' : 'danger'}
-              size="sm"
-              variant="flat"
-            >
-              {user.isEnabled ? 'active' : 'disabled'}
-            </Chip>
+            <div className="min-w-[90px]">
+              <Chip
+                className="capitalize"
+                color={user.isEnabled ? 'success' : 'danger'}
+                size="sm"
+                variant="flat"
+              >
+                {user.isEnabled ? 'active' : 'disabled'}
+              </Chip>
+            </div>
           )
+
         case 'actions':
           return (
-            <div className="relative flex items-center gap-2">
+            <div className="relative flex items-center justify-center gap-2 min-w-[80px]">
               <Tooltip content="Detalles">
                 <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                   <EyeIcon />
@@ -326,9 +330,18 @@ export default function Users() {
 
   return (
     <>
-      <div className="profile-container">
-        <div>
-          <AppTable list={users || []} columns={columns} renderCell={renderCell}/>
+      <div className="profile-container min-w-0">
+        <div className="w-full overflow-x-auto">
+          <AppTable
+            list={users || []}
+            columns={columns}
+            renderCell={renderCell}
+            page={page}
+            totalPages={totalPages}
+            onPageChange={onPageChange}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={onRowsPerPageChange}
+          />
         </div>
       </div>
       <Modal

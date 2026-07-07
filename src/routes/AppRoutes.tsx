@@ -7,10 +7,8 @@ import Profile from '../pages/Profile/Profile'
 import Users from '../pages/Users/Users'
 import MapView from '../pages/MapView/MapView'
 import Secure from '../pages/ProtectedRoute'
-import { useState } from 'react'
 
 function AppRoutes() {
-  const [selectPosition, setSelectPosition] = useState(null);
   return (
     <Routes>
       <Route element={<AppLayout />}>
@@ -30,7 +28,7 @@ function AppRoutes() {
         />
         <Route
           path="/map"
-          element={<Secure element={<MapView selectPosition={selectPosition} setSelectPosition={setSelectPosition} />} roles={['ROLE_ADMIN']} />}
+          element={<Secure element={<MapView/>} roles={['ROLE_ADMIN']} />}
         />
 
         <Route path="*" element={<p>404 Not Found</p>} />
